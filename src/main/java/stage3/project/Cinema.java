@@ -3,10 +3,20 @@ package stage3.project;
 import java.util.Arrays;
 import java.util.Scanner;
 
+class Seat {
+    int row;
+    int col;
+
+    Seat(int row, int col) {
+        this.row = row;
+        this.col = col;
+    }
+}
+
 public class Cinema {
     private final int rows;
     private final int cols;
-    private String[][] seats;
+    private final String[][] seats;
 
     private Cinema(int rows, int cols) {
         this.rows = rows;
@@ -38,10 +48,6 @@ public class Cinema {
         return new Cinema(rows, cols);
     }
 
-    private int getTotalSeats() {
-        return rows * cols;
-    }
-
     private String getTopRow() {
         String[] topRow = new String[this.cols + 1];
 
@@ -65,11 +71,55 @@ public class Cinema {
             String row = String.join(" ", seats[i - 1]);
             System.out.println(row);
         }
+    }
+
+    private void takeSeat(Seat seat) {
+        seats[seat.row - 1][seat.col - 1] = "B";
+    }
+
+    private static Seat readSeat() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println();
+        System.out.println("Enter a row number:");
+        int row = scanner.nextInt();
+
+        System.out.println("Enter a seat number in that row:");
+        int col = scanner.nextInt();
+
+        return new Seat(row, col);
+    }
+
+    private int totalSeats() {
+        return cols * rows;
+    }
+
+    private boolean isFrontHalf(Seat seat) {
+        return seat.row <= rows / 2;
+    }
+
+    private void printPrice(Seat seat) {
+        System.out.println();
+        int price;
+
+        if (totalSeats() <= 60 || isFrontHalf(seat)) {
+            price = 10;
+        } else {
+            price = 8;
+        }
+
+        System.out.printf("Ticket price: $%s", price);
         System.out.println();
     }
 
     public static void main(String[] args) {
         Cinema cinema = readCinema();
+        cinema.print();
+
+        Seat seat = readSeat();
+        cinema.takeSeat(seat);
+        cinema.printPrice(seat);
+
         cinema.print();
     }
 }
