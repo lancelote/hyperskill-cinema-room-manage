@@ -54,6 +54,7 @@ public class Cinema {
     }
 
     private void print() {
+        System.out.println();
         System.out.println("Cinema:");
 
         String topRow = getTopRow();
@@ -64,6 +65,7 @@ public class Cinema {
             String row = String.join(" ", seats[i - 1]);
             System.out.println(row);
         }
+        System.out.println();
     }
 
     public static void main(String[] args) {
