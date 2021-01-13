@@ -7,7 +7,7 @@ My implementation of [Hyperskill][1] [Cinema Room Manager][2] project
 - [x] Stage 1: Arrangement
 - [x] Stage 2: Sold!
 - [x] Stage 3: Tickets
-- [ ] Stage 4: Menu, please!
+- [x] Stage 4: Menu, please!
 - [ ] Stage 5: Errors!
 
 [1]: https://hyperskill.org/
