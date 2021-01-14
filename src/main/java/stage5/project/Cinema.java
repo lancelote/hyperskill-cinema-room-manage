@@ -87,6 +87,7 @@ public class Cinema {
         System.out.println("Enter a seat number in that row:");
         int col = scanner.nextInt();
 
+        System.out.println();
         return new Seat(row, col);
     }
 
