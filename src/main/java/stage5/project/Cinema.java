@@ -15,6 +15,8 @@ class Seat {
 
 class AlreadyTakenSeatException extends Exception {}
 
+class NonExistingSeatException extends Exception {}
+
 public class Cinema {
     private final int rows;
     private final int cols;
@@ -78,7 +80,7 @@ public class Cinema {
         }
     }
 
-    private static Seat selectSeat() {
+    private Seat selectSeat() throws NonExistingSeatException {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Enter a row number:");
@@ -88,6 +90,11 @@ public class Cinema {
         int col = scanner.nextInt();
 
         System.out.println();
+
+        if (row < 1 || row > rows || col < 1 || col > cols) {
+            throw new NonExistingSeatException();
+        }
+
         return new Seat(row, col);
     }
 
@@ -98,6 +105,10 @@ public class Cinema {
             printPrice(seat);
         } catch (AlreadyTakenSeatException e) {
             System.out.println("That ticket has already been purchased!");
+            System.out.println();
+            buySeat();
+        } catch (NonExistingSeatException e) {
+            System.out.println("Wrong input! ");
             System.out.println();
             buySeat();
         }
