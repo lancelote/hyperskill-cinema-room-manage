@@ -21,6 +21,8 @@ public class Cinema {
     private final int rows;
     private final int cols;
     private final String[][] seats;
+    private int purchased = 0;
+    private int currentIncome = 0;
 
     private Cinema(int rows, int cols) {
         this.rows = rows;
@@ -59,7 +61,7 @@ public class Cinema {
         return cols * rows;
     }
 
-    private void printPrice(Seat seat) {
+    private int getPrice(Seat seat) {
         int price;
 
         if (totalSeats() <= 60 || isFrontHalf(seat)) {
@@ -68,6 +70,10 @@ public class Cinema {
             price = 8;
         }
 
+        return price;
+    }
+
+    private void printPrice(int price) {
         System.out.printf("Ticket price: $%s\n", price);
         System.out.println();
     }
@@ -102,7 +108,12 @@ public class Cinema {
         try {
             Seat seat = selectSeat();
             takeSeat(seat);
-            printPrice(seat);
+            int price = getPrice(seat);
+
+            currentIncome += price;
+            purchased++;
+
+            printPrice(price);
         } catch (AlreadyTakenSeatException e) {
             System.out.println("That ticket has already been purchased!");
             System.out.println();
@@ -128,12 +139,29 @@ public class Cinema {
         System.out.println();
     }
 
+    private int getTotalIncome() {
+        return (rows / 2) * cols * 10 + (rows - rows / 2) * cols * 8;
+    }
+
+    private float getPercentage() {
+        return (float) purchased * 100 / (rows * cols);
+    }
+
+    private void printStatistics() {
+        System.out.printf("Number of purchased tickets: %d\n", purchased);
+        System.out.printf("Percentage: %f%%\n", getPercentage());
+        System.out.printf("Current income: $%d\n", currentIncome);
+        System.out.printf("Total income: $%d\n", getTotalIncome());
+        System.out.println();
+    }
+
     private void showMenu() {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
             System.out.println("1. Show the seats");
             System.out.println("2. Buy a ticket");
+            System.out.println("3. Statistics");
             System.out.println("0. Exit");
 
             int input = scanner.nextInt();
@@ -147,6 +175,9 @@ public class Cinema {
                     break;
                 case 2:
                     buySeat();
+                    break;
+                case 3:
+                    printStatistics();
                     break;
                 default:
                     throw new RuntimeException(String.format("unknown menu command %d", input));
