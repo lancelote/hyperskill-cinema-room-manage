@@ -143,13 +143,14 @@ public class Cinema {
         return (rows / 2) * cols * 10 + (rows - rows / 2) * cols * 8;
     }
 
-    private float getPercentage() {
-        return (float) purchased * 100 / (rows * cols);
+    private String getPercentage() {
+        double percentage = (double) purchased * 100 / (rows * cols);
+        return String.format("%.2f", percentage);
     }
 
     private void printStatistics() {
         System.out.printf("Number of purchased tickets: %d\n", purchased);
-        System.out.printf("Percentage: %f%%\n", getPercentage());
+        System.out.printf("Percentage: %s%%\n", getPercentage());
         System.out.printf("Current income: $%d\n", currentIncome);
         System.out.printf("Total income: $%d\n", getTotalIncome());
         System.out.println();
