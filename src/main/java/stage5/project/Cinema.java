@@ -140,11 +140,15 @@ public class Cinema {
     }
 
     private int getTotalIncome() {
-        return (rows / 2) * cols * 10 + (rows - rows / 2) * cols * 8;
+        if (totalSeats() <= 60) {
+            return rows * cols * 10;
+        } else {
+            return (rows / 2) * cols * 10 + (rows - rows / 2) * cols * 8;
+        }
     }
 
     private String getPercentage() {
-        double percentage = (double) purchased * 100 / (rows * cols);
+        double percentage = (double) purchased * 100 / totalSeats();
         return String.format("%.2f", percentage);
     }
 
